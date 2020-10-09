@@ -27,7 +27,7 @@
           "arn": "arn:aws:s3:::cm-infra-test-sns-notification"
         },
         "object": {
-          "key": "2020-10-09/s3_test_file.zip",
+          "key": "2020-10-09/ah-2020100813211.zip",
           "size": 559,
           "eTag": "7d775c5eaaaed40847c93a51331ad113",
           "sequencer": "005F80A303429272FD"

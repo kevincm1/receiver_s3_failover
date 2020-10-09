@@ -20,6 +20,11 @@ Resources:
       Environment:
         Variables:
           DESTINATION_BUCKET_NAME: cm-infra-test-bucket
+          REGION: us-east-1
+          ACCOUNT_ID: 528461152743
+          PROVIDERS_TO_PROCESS:
+            - lrfp
+            - vt3
       Events:
         HelloWorld:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api

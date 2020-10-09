@@ -2,13 +2,11 @@ import json
 import os
 import boto3
 
-client = boto3.client('s3')
+s3_client = boto3.client('s3')
+sns_client = boto3.client('sns')
 
-def get_object_destination_path(event):
-    key = get_object_key(event)
-    path = os.path.dirname(key)
-    bucket = os.getenv("DESTINATION_BUCKET_NAME")
-    return "s3://" + bucket + "/" + path
+DEFAULT_REGION = "us-east-1"
+DEFAULT_SNS_TOPIC = "kevin-test"
 
 def get_object_key(event):
     return event["Records"][0]["s3"]["object"]["key"]
@@ -16,49 +14,45 @@ def get_object_key(event):
 def get_object_bucket(event):
     return event["Records"][0]["s3"]["bucket"]["name"]
 
-def get_source_object_path(event):
+def get_object_destination(event):
     key = get_object_key(event)
-    bucket = get_object_bucket(event)
-    return "s3://" + bucket + "/" + key
+    bucket = os.getenv("DESTINATION_BUCKET_NAME")
+    return f"s3://{bucket}/{key}"
 
-def get_object(event):
-    bucket = get_object_bucket(event)
-    key = get_object_key(event)
-    return client.get_object(Bucket=bucket, Key=key)
+def get_sns_topic_arn():
+    sns_topic_name = os.getenv("SNS_TOPIC", DEFAULT_SNS_TOPIC)
+    aws_region = os.getenv("REGION", DEFAULT_REGION)
+    aws_account_id = os.getenv("ACCOUNT_ID")
+    topic_name = sns_topic_name
+    return f"arn:aws:sns:{aws_region}:{aws_account_id}:{topic_name}"
 
-def put_object(object, event):
-    bucket = get_object_bucket(event)
-    key = get_object_key(event)
-    print("key: ", key)
-    print("bucket: ", bucket)
-    print("object: ", object)
-    # client.put_object(Body=object, Bucket=bucket, Key=key)
-
-
-# dest = s3.Bucket('Bucketname2')
-# dest.copy(source, 'backupfile')
 def lambda_handler(event, context):
-    # TODO: 
-    # push notification to nmea-notifications SNS
-
-    # comments?
-    # raise exceptions?
-
+    # provider = get_provider()
     bucket = get_object_bucket(event)
     key = get_object_key(event)
-    source = bucket + "/" + key
-    response = client.copy_object(
+    source = f"{bucket}/{key}"
+
+    response = s3_client.copy_object(
         Bucket=os.getenv("DESTINATION_BUCKET_NAME"),
         CopySource=source,
         Key=key,
     )
 
-    print(response)
+    print(f"publish to s3 response: {response}")
 
-    return {
-        "statusCode": 200,
-        "body": json.dumps({
-            "message": "hello world",
-            # "location": ip.text.replace("\n", "")
-        }),
-    }
+    topic_arn = get_sns_topic_arn()
+    message = get_object_destination(event)
+
+    response = sns_client.publish(
+        TargetArn=topic_arn,
+        Message=message,
+        MessageStructure='string',
+        MessageAttributes={
+            'provider': {
+                'DataType': 'string',
+                'StringValue': '',
+            }
+        }
+    )
+
+    print(f"publish to sns response: {response}")
