@@ -1,0 +1,38 @@
+{
+  "Records": [
+    {
+      "eventVersion": "2.1",
+      "eventSource": "aws:s3",
+      "awsRegion": "us-east-1",
+      "eventTime": "2020-10-09T17:50:54.875Z",
+      "eventName": "ObjectCreated:Put",
+      "userIdentity": {
+        "principalId": "AWS:AIDAXWCV5IHTX2Q73WVRB"
+      },
+      "requestParameters": {
+        "sourceIPAddress": "74.104.147.60"
+      },
+      "responseElements": {
+        "x-amz-request-id": "FF505B6A43CD1F71",
+        "x-amz-id-2": "EH2CAkELrBwUQAygnbruTU8EM0mqPkMI++cJ4JDz4UK2bPQ+4ZSHxUHWLJgDoh4LNxuUX7ECKJU00m3ZNLE2YQtAGjYJNLGolwaZ+bCO5O0="
+      },
+      "s3": {
+        "s3SchemaVersion": "1.0",
+        "configurationId": "YTU1M2Y1MWUtNDc5OC00NDFkLWI1NzYtOTQ5ZjcwMTYzNDAw",
+        "bucket": {
+          "name": "cm-infra-test-sns-notification",
+          "ownerIdentity": {
+            "principalId": "AA5JYD703FRW1"
+          },
+          "arn": "arn:aws:s3:::cm-infra-test-sns-notification"
+        },
+        "object": {
+          "key": "2020-10-09/s3_test_file.zip",
+          "size": 559,
+          "eTag": "7d775c5eaaaed40847c93a51331ad113",
+          "sequencer": "005F80A303429272FD"
+        }
+      }
+    }
+  ]
+}
