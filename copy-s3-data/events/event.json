@@ -7,10 +7,10 @@
       "eventTime": "2020-10-09T17:50:54.875Z",
       "eventName": "ObjectCreated:Put",
       "userIdentity": {
-        "principalId": "AWS:AIDAXWCV5IHTX2Q73WVRB"
+        "principalId": "AWS:AID123456789123456789"
       },
       "requestParameters": {
-        "sourceIPAddress": "74.104.147.60"
+        "sourceIPAddress": "1.2.3.4"
       },
       "responseElements": {
         "x-amz-request-id": "FF505B6A43CD1F71",
@@ -22,12 +22,12 @@
         "bucket": {
           "name": "cm-infra-test-sns-notification",
           "ownerIdentity": {
-            "principalId": "AA5JYD703FRW1"
+            "principalId": "AA123456789"
           },
           "arn": "arn:aws:s3:::cm-infra-test-sns-notification"
         },
         "object": {
-          "key": "2020-10-09/ah-2020100813211.zip",
+          "key": "2020-10-09/lrfp-2020100000000.zip",
           "size": 559,
           "eTag": "7d775c5eaaaed40847c93a51331ad113",
           "sequencer": "005F80A303429272FD"
